@@ -24,7 +24,7 @@ THEATERtype = 21
 
 
 
-def LoadXMLFromDrug(page=1, city="", city1="",numOfPage=1000):
+def LoadXMLFromDrug(page=1, city="", city1="",numOfPage=500):
     Data = None
     url = "http://apis.data.go.kr/B552657/ErmctInsttInfoInqireService/getParmacyFullDown"
     key = "wq6dVQ3VqCjAjojine1n1bkftuuo1wptdEttrYpuzR2OBJ%2B7g3%2FnL0CsRu%2BhcpGkDmHkZO5DhwD4AkVp3UQWzw%3D%3D"

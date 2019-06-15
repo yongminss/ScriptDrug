@@ -24,6 +24,9 @@
     <Compile Include="Interface.py" />
     <Compile Include="LoadData.py" />
     <Compile Include="mysmtplib.py" />
+    <Compile Include="noti.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="SearchList.py">
       <SubType>Code</SubType>
     </Compile>

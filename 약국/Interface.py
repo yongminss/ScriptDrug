@@ -11,6 +11,19 @@ import mimetypes
 import mysmtplib
 from email.mime.base import MIMEBase
 from email.mime.text import MIMEText
+import spam
+
+import sys
+import time
+import sqlite3
+from pprint import pprint
+from urllib.request import urlopen
+from bs4 import BeautifulSoup
+import re
+from datetime import date, datetime, timedelta
+import traceback
+import telepot
+import noti
 
 class Interface:
     def __init__(self, window, width, height):
@@ -19,10 +32,10 @@ class Interface:
         self.height = height
 
         self.notebook = tkinter.ttk.Notebook(window, width = self.width, height = self.height-100)
-        
+      
         self.frame = Search(window)
         self.frame1 = E_MAIL(window)
- 
+
         self.notebook.add(self.frame.GetFrame(), text = "정보 검색")
         self.notebook.add(self.frame1.GetFrame(), text = "통계 및 이메일")
 
@@ -31,8 +44,8 @@ class Interface:
     def Draw(self):
         self.notebook.place(x = 10, y = 20)
         self.frame.Draw()
-        
 
+        
 class Search:
     def __init__(self, window):
         self.frame = Frame(window,width = 800, height = 600, bd = 2, relief = "solid")
@@ -101,6 +114,9 @@ class Search:
 
         for i in self.AllList:
             i.sort(key=lambda obj:obj.dutyaddr.string)
+   
+        bot = telepot.Bot(noti.TOKEN)
+        bot.message_loop(self.teller)
                
 
     def Draw(self):
@@ -311,6 +327,78 @@ class Search:
                         self.Listbox2.delete(self.Listbox2.curselection())
         except:
             pass
+
+    def teller(self, msg):
+        content_type, chat_type, chat_id = telepot.glance(msg)
+        if content_type != 'text':
+            noti.sendMessage(chat_id, '난 텍스트 이외의 메시지는 처리하지 못해요.')
+            return
+        text = msg['text']
+        areaList = ""
+        if text.startswith("서울") or text.startswith("서울특별시"):
+            for i in self.AllList[0]:
+                areaList += i.dutyaddr.string + '\n'
+            noti.sendMessage(chat_id, str(areaList))
+        elif text.startswith("경기") or text.startswith("경기도"):
+                for i in self.AllList[1]:
+                    areaList += i.dutyaddr.string + '\n'
+                noti.sendMessage(chat_id, str(areaList))
+        elif text.startswith("충남") or text.startswith("충청남도"):
+            for i in self.AllList[2]:
+                areaList += i.dutyaddr.string + '\n'
+            noti.sendMessage(chat_id, str(areaList))
+        elif text.startswith("충북") or text.startswith("충청북도"):
+            for i in self.AllList[3]:
+                areaList += i.dutyaddr.string + '\n'
+            noti.sendMessage(chat_id, str(areaList))
+        elif text.startswith("강원") or text.startswith("강원도"):
+            for i in self.AllList[4]:
+                areaList += i.dutyaddr.string + '\n'
+            noti.sendMessage(chat_id, str(areaList))
+        elif text.startswith("경남") or text.startswith("경상남도"):
+            for i in self.AllList[5]:
+                areaList += i.dutyaddr.string + '\n'
+            noti.sendMessage(chat_id, str(areaList))
+        elif text.startswith("경북") or text.startswith("경상북도"):
+            for i in self.AllList[6]:
+                areaList += i.dutyaddr.string + '\n'
+            noti.sendMessage(chat_id, str(areaList))
+        elif text.startswith("전남") or text.startswith("전라남도"):
+            for i in self.AllList[7]:
+                areaList += i.dutyaddr.string + '\n'
+            noti.sendMessage(chat_id, str(areaList))
+        elif text.startswith("전북") or text.startswith("전라북도"):
+            for i in self.AllList[8]:
+                areaList += i.dutyaddr.string + '\n'
+            noti.sendMessage(chat_id, str(areaList))
+        elif text.startswith("대전") or text.startswith("대전광역시"):
+            for i in self.AllList[9]:
+                areaList += i.dutyaddr.string + '\n'
+            noti.sendMessage(chat_id, str(areaList))
+        elif text.startswith("대구") or text.startswith("대구광역시"):
+            for i in self.AllList[10]:
+                areaList += i.dutyaddr.string + '\n'
+            noti.sendMessage(chat_id, str(areaList))
+        elif text.startswith("울산") or text.startswith("울산광역시"):
+            for i in self.AllList[11]:
+                areaList += i.dutyaddr.string + '\n'
+            noti.sendMessage(chat_id, str(areaList))
+        elif text.startswith("광주") or text.startswith("광주광역시"):
+            for i in self.AllList[12]:
+                areaList += i.dutyaddr.string + '\n'
+            noti.sendMessage(chat_id, str(areaList))
+        elif text.startswith("인천") or text.startswith("인천광역시"):
+            for i in self.AllList[13]:
+                areaList += i.dutyaddr.string + '\n'
+            noti.sendMessage(chat_id, str(areaList))
+        elif text.startswith("부산") or text.startswith("부산광역시"):
+            for i in self.AllList[14]:
+                areaList += i.dutyaddr.string + '\n'
+            noti.sendMessage(chat_id, str(areaList))
+        elif text.startswith("제주") or text.startswith("제주특별자치도"):
+            for i in self.AllList[15]:
+                areaList += i.dutyaddr.string + '\n'
+            noti.sendMessage(chat_id, str(areaList))
 
 
 class E_MAIL:
