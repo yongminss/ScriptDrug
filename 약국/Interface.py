@@ -114,7 +114,7 @@ class Search:
 
         for i in self.AllList:
             i.sort(key=lambda obj:obj.dutyaddr.string)
-   
+
         bot = telepot.Bot(noti.TOKEN)
         bot.message_loop(self.teller)
                
@@ -334,76 +334,84 @@ class Search:
             noti.sendMessage(chat_id, '난 텍스트 이외의 메시지는 처리하지 못해요.')
             return
         text = msg['text']
-        areaList = ""
+        areaInfo = ""
         if text.startswith("서울") or text.startswith("서울특별시"):
             for i in self.AllList[0]:
-                areaList += i.dutyaddr.string + '\n'
-            noti.sendMessage(chat_id, str(areaList))
+                areaInfo += i.dutyaddr.string + '\n'
+            noti.sendMessage(chat_id, str(areaInfo))
         elif text.startswith("경기") or text.startswith("경기도"):
                 for i in self.AllList[1]:
-                    areaList += i.dutyaddr.string + '\n'
-                noti.sendMessage(chat_id, str(areaList))
+                    areaInfo += i.dutyaddr.string + '\n'
+                noti.sendMessage(chat_id, str(areaInfo))
         elif text.startswith("충남") or text.startswith("충청남도"):
             for i in self.AllList[2]:
-                areaList += i.dutyaddr.string + '\n'
-            noti.sendMessage(chat_id, str(areaList))
+                areaInfo += i.dutyaddr.string + '\n'
+            noti.sendMessage(chat_id, str(areaInfo))
         elif text.startswith("충북") or text.startswith("충청북도"):
             for i in self.AllList[3]:
-                areaList += i.dutyaddr.string + '\n'
-            noti.sendMessage(chat_id, str(areaList))
+                areaInfo += i.dutyaddr.string + '\n'
+            noti.sendMessage(chat_id, str(areaInfo))
         elif text.startswith("강원") or text.startswith("강원도"):
             for i in self.AllList[4]:
-                areaList += i.dutyaddr.string + '\n'
-            noti.sendMessage(chat_id, str(areaList))
+                areaInfo += i.dutyaddr.string + '\n'
+            noti.sendMessage(chat_id, str(areaInfo))
         elif text.startswith("경남") or text.startswith("경상남도"):
             for i in self.AllList[5]:
-                areaList += i.dutyaddr.string + '\n'
-            noti.sendMessage(chat_id, str(areaList))
+                areaInfo += i.dutyaddr.string + '\n'
+            noti.sendMessage(chat_id, str(areaInfo))
         elif text.startswith("경북") or text.startswith("경상북도"):
             for i in self.AllList[6]:
-                areaList += i.dutyaddr.string + '\n'
-            noti.sendMessage(chat_id, str(areaList))
+                areaInfo += i.dutyaddr.string + '\n'
+            noti.sendMessage(chat_id, str(areaInfo))
         elif text.startswith("전남") or text.startswith("전라남도"):
             for i in self.AllList[7]:
-                areaList += i.dutyaddr.string + '\n'
-            noti.sendMessage(chat_id, str(areaList))
+                areaInfo += i.dutyaddr.string + '\n'
+            noti.sendMessage(chat_id, str(areaInfo))
         elif text.startswith("전북") or text.startswith("전라북도"):
             for i in self.AllList[8]:
-                areaList += i.dutyaddr.string + '\n'
-            noti.sendMessage(chat_id, str(areaList))
+                areaInfo += i.dutyaddr.string + '\n'
+            noti.sendMessage(chat_id, str(areaInfo))
         elif text.startswith("대전") or text.startswith("대전광역시"):
             for i in self.AllList[9]:
-                areaList += i.dutyaddr.string + '\n'
-            noti.sendMessage(chat_id, str(areaList))
+                areaInfo += i.dutyaddr.string + '\n'
+            noti.sendMessage(chat_id, str(areaInfo))
         elif text.startswith("대구") or text.startswith("대구광역시"):
             for i in self.AllList[10]:
-                areaList += i.dutyaddr.string + '\n'
-            noti.sendMessage(chat_id, str(areaList))
+                areaInfo += i.dutyaddr.string + '\n'
+            noti.sendMessage(chat_id, str(areaInfo))
         elif text.startswith("울산") or text.startswith("울산광역시"):
             for i in self.AllList[11]:
-                areaList += i.dutyaddr.string + '\n'
-            noti.sendMessage(chat_id, str(areaList))
+                areaInfo += i.dutyaddr.string + '\n'
+            noti.sendMessage(chat_id, str(areaInfo))
         elif text.startswith("광주") or text.startswith("광주광역시"):
             for i in self.AllList[12]:
-                areaList += i.dutyaddr.string + '\n'
-            noti.sendMessage(chat_id, str(areaList))
+                areaInfo += i.dutyaddr.string + '\n'
+            noti.sendMessage(chat_id, str(areaInfo))
         elif text.startswith("인천") or text.startswith("인천광역시"):
             for i in self.AllList[13]:
-                areaList += i.dutyaddr.string + '\n'
-            noti.sendMessage(chat_id, str(areaList))
+                areaInfo += i.dutyaddr.string + '\n'
+            noti.sendMessage(chat_id, str(areaInfo))
         elif text.startswith("부산") or text.startswith("부산광역시"):
             for i in self.AllList[14]:
-                areaList += i.dutyaddr.string + '\n'
-            noti.sendMessage(chat_id, str(areaList))
+                areaInfo += i.dutyaddr.string + '\n'
+            noti.sendMessage(chat_id, str(areaInfo))
         elif text.startswith("제주") or text.startswith("제주특별자치도"):
             for i in self.AllList[15]:
-                areaList += i.dutyaddr.string + '\n'
-            noti.sendMessage(chat_id, str(areaList))
+                areaInfo += i.dutyaddr.string + '\n'
+            noti.sendMessage(chat_id, str(areaInfo))
+        else:
+            noti.sendMessage(chat_id, "없는 기능 혹은 없는 명령입니다.")
+            noti.sendMessage(chat_id, "지역명을 입력하시면 해당 지역에 위치하는 약국 정보를 출력합니다. ex. 서울 -> 서울에 있는 약국정보 출력")
 
 
 class E_MAIL:
     def __init__(self, window):
         self.frame = Frame(window, width = 800, height = 600)
+        self.frame.pack()
+
+        tempFont = font.Font(self.frame, size = 30, weight = 'bold', family = 'Consolas')
+        mainText = Label(self.frame, font = tempFont, text = "[전국 약국정보 검색]")
+        mainText.pack()
 
         self.frame1 = Frame(self.frame)
         self.frame1.pack(side = LEFT)
@@ -419,6 +427,7 @@ class E_MAIL:
         self.entry1.grid(row = 0, column = 1)
 
         Button(self.frame2, text = "약국 정보 메일로 보내기", command = self.SendEmail).grid(row = 1, column = 1)
+
 
     def GetFrame(self):
         return self.frame
