@@ -12,7 +12,6 @@ import mysmtplib
 from email.mime.base import MIMEBase
 from email.mime.text import MIMEText
 
-
 import sys
 import time
 import sqlite3
@@ -30,6 +29,9 @@ class Interface:
         self.window = window
         self.width = width
         self.height = height
+        self.frameImage=PhotoImage(file="Per.png");
+        self.frame1Image=PhotoImage(file="다운로드.png");
+
 
         self.notebook = tkinter.ttk.Notebook(window, width = self.width, height = self.height-100)
       
@@ -37,8 +39,8 @@ class Interface:
         self.frame = Search(window, self.AllList)
         self.frame1 = E_MAIL(window,self.AllList)
 
-        self.notebook.add(self.frame.GetFrame(), text = "정보 검색")
-        self.notebook.add(self.frame1.GetFrame(), text = "통계 및 이메일")
+        self.notebook.add(self.frame.GetFrame(), text = "정보 검색", image=self.frameImage)
+        self.notebook.add(self.frame1.GetFrame(), text = "통계 및 이메일", image=self.frame1Image)
 
     def SetPhotoImage(self):#아이콘 불러오기
         pass
@@ -49,6 +51,10 @@ class Interface:
         
 class Search:
     def __init__(self, window, All):
+        self.GlassIcon = PhotoImage(file="Glass.png")
+        self.MapIcon=PhotoImage(file="Map.png");
+        self.PlaceIcon=PhotoImage(file="Place.png");
+       
         self.frame = Frame(window,width = 800, height = 600, bd = 2, relief = "solid")
         self.frame1 = Frame(self.frame, width = 300, height = 400, bd = 2, relief = "solid")
 
@@ -78,11 +84,13 @@ class Search:
         self.e2 = Entry(self.frame1, width = 15)
         self.e2.pack(side = TOP)
     
-        self.button = Button(self.frame1, text = "검색", command=self.Searching)
+        self.button = Button(self.frame1, text = "검색", command=self.Searching, image=self.GlassIcon, width=50,height=50)
         self.button.place(x = 230, y = 27)
-        self.button1=Button(self.frame1, text="지도", command=self.ClickIndex)
-        self.button1.pack(side=TOP)
-        self.button2=Button(self.frame1, text="위치", command=self.ClickAdd)
+
+        self.button1=Button(self.frame1, text="지도", command=self.ClickIndex, width=30, height=20, image=self.MapIcon)
+        self.button1.place(x=110, y=58);
+
+        self.button2=Button(self.frame1, text="위치", command=self.ClickAdd, width=30, height=20, image=self.PlaceIcon)
         self.button2.pack(side=TOP)
 
         self.button2=Button(self.frame2, text="북마크 추가", command=self.BookMark);
@@ -334,6 +342,7 @@ class Search:
             return
         text = msg['text']
         areaInfo = ""
+        print("입력 받은 문자의 수:", spam.strlen(text))
         if text.startswith("서울") or text.startswith("서울특별시"):
             for i in self.AllList[0]:
                 areaInfo += i.dutyaddr.string + '\n'
@@ -405,7 +414,9 @@ class Search:
 
 class E_MAIL:
     def __init__(self, window, All):
+        self.BgImage=PhotoImage(file="Per.png");
         self.frame = Frame(window, width = 800, height = 600)
+
         self.frame.pack()
 
         tempFont = font.Font(self.frame, size = 30, weight = 'bold', family = 'Consolas')
@@ -413,20 +424,20 @@ class E_MAIL:
         mainText.pack()
 
         self.frame1 = Frame(self.frame)
-        self.frame1.pack(side = LEFT)
+        self.frame1.pack(side = TOP)
 
         self.canvas=Canvas(self.frame1, width = 500, height = 350, bg = "white")
         self.canvas.pack(side = TOP);
-        Button(self.frame1, text = "그래프 출력", command = self.DrawGraph).pack(side = BOTTOM)
+        Button(self.frame1, text = "Graph", command = self.DrawGraph).pack(side = BOTTOM)
 
         self.frame2 = Frame(self.frame)
-        self.frame2.pack(side = LEFT)
+        self.frame2.pack(side = TOP)
         
-        Label(self.frame2, text = "이메일 입력: ").grid(row = 0, column = 0)
+        Label(self.frame2, text = "Insert E-MAIL: ").grid(row = 0, column = 0)
         self.entry1 = Entry(self.frame2)
         self.entry1.grid(row = 0, column = 1)
 
-        Button(self.frame2, text = "약국 정보 메일로 보내기", command = self.SendEmail).grid(row = 1, column = 1)
+        Button(self.frame2, text = "SEND", command = self.SendEmail).grid(row = 0, column = 2)
         self.AllList=All;
 
     def GetFrame(self):
