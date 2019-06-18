@@ -342,7 +342,6 @@ class Search:
             return
         text = msg['text']
         areaInfo = ""
-        print("입력 받은 문자의 수:", spam.strlen(text))
         if text.startswith("서울") or text.startswith("서울특별시"):
             for i in self.AllList[0]:
                 areaInfo += i.dutyaddr.string + '\n'
