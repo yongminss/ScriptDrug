@@ -11,7 +11,7 @@ import mimetypes
 import mysmtplib
 from email.mime.base import MIMEBase
 from email.mime.text import MIMEText
-import spam
+
 
 import sys
 import time
@@ -33,8 +33,9 @@ class Interface:
 
         self.notebook = tkinter.ttk.Notebook(window, width = self.width, height = self.height-100)
       
-        self.frame = Search(window)
-        self.frame1 = E_MAIL(window)
+        self.AllList=LoadData.LoadXMLFromDrug()
+        self.frame = Search(window, self.AllList)
+        self.frame1 = E_MAIL(window,self.AllList)
 
         self.notebook.add(self.frame.GetFrame(), text = "정보 검색")
         self.notebook.add(self.frame1.GetFrame(), text = "통계 및 이메일")
@@ -47,7 +48,7 @@ class Interface:
 
         
 class Search:
-    def __init__(self, window):
+    def __init__(self, window, All):
         self.frame = Frame(window,width = 800, height = 600, bd = 2, relief = "solid")
         self.frame1 = Frame(self.frame, width = 300, height = 400, bd = 2, relief = "solid")
 
@@ -64,7 +65,7 @@ class Search:
 
         self.City1Name = ""
         self.City2Name = ""
-
+        self.AllList=All;
         tempFont = font.Font(self.frame1, size = 9, weight = 'bold', family = 'Consolas')
         mainText = Label(self.frame1, font = tempFont, text = "[전국 약국정보 검색]")
         mainText.pack()
@@ -108,9 +109,7 @@ class Search:
         self.e4.place(x=40, y=40)
         self.e5.place(x=60, y=60)
 
-        self.BookMark=[];
-        self.AllList=[];
-        self.AllList=LoadData.LoadXMLFromDrug()
+        self.BookMark=[];       
 
         for i in self.AllList:
             i.sort(key=lambda obj:obj.dutyaddr.string)
@@ -335,7 +334,6 @@ class Search:
             return
         text = msg['text']
         areaInfo = ""
-        print("입력 받은 문자의 수:", spam.strlen(text))
         if text.startswith("서울") or text.startswith("서울특별시"):
             for i in self.AllList[0]:
                 areaInfo += i.dutyaddr.string + '\n'
@@ -406,7 +404,7 @@ class Search:
 
 
 class E_MAIL:
-    def __init__(self, window):
+    def __init__(self, window, All):
         self.frame = Frame(window, width = 800, height = 600)
         self.frame.pack()
 
@@ -417,7 +415,8 @@ class E_MAIL:
         self.frame1 = Frame(self.frame)
         self.frame1.pack(side = LEFT)
 
-        Canvas(self.frame1, width = 500, height = 350, bg = "white").pack(side = TOP)
+        self.canvas=Canvas(self.frame1, width = 500, height = 350, bg = "white")
+        self.canvas.pack(side = TOP);
         Button(self.frame1, text = "그래프 출력", command = self.DrawGraph).pack(side = BOTTOM)
 
         self.frame2 = Frame(self.frame)
@@ -428,7 +427,7 @@ class E_MAIL:
         self.entry1.grid(row = 0, column = 1)
 
         Button(self.frame2, text = "약국 정보 메일로 보내기", command = self.SendEmail).grid(row = 1, column = 1)
-
+        self.AllList=All;
 
     def GetFrame(self):
         return self.frame
@@ -470,4 +469,24 @@ class E_MAIL:
         s.close()
 
     def DrawGraph(self):
-        pass
+        self.canvas.delete("grim")
+        self.AllList;
+        self.width = 500
+        self.height = 300
+        self.barW = (self.width - 30) / 25
+        self.num=len(self.AllList);
+        self.temp=20;
+        self.Text=["서\n울", "경\n기", "충\n남", "충\n북", "강\n원", "경\n남", 
+                   "경\n북", "전\n남", "전\n북", "대\n전", "대\n구", "울\n산" , 
+                   "광\n주", "인\n천", "부\n산","제\n주"]
+        for i in range(self.num):
+            self.canvas.create_rectangle(
+                self.temp+self.barW*i+20 + 60, 
+                self.temp+10+(self.height-50)*(1-len(self.AllList[i])/5000),
+                self.temp+self.barW*(i+1)+20 + 60, 
+                self.height - self.temp+10, tags = "grim")
+
+            self.canvas.create_text(
+            self.temp+self.barW*i+30 + 60, 
+            self.temp+40+(self.height-50),
+            text = self.Text[i],tags = "grim")
