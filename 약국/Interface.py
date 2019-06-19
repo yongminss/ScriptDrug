@@ -329,7 +329,7 @@ class Search:
             self.bookindex=self.bookindex[0];
             for i in self.AllList:
                 for j in i:
-                    if self.bookindex in j.dutyname.string:
+                    if self.bookindex in j.dutyaddr.string:
                         self.BookMark.remove(j)
                         self.Listbox2.delete(self.Listbox2.curselection())
         except:
